@@ -4,6 +4,9 @@ import numpy as np
 import scipy.io as sio
 
 class DatasetLoad:
+	'''
+	该类实现了论文中加载数据的各种算法
+	'''
 	def __init__(self, file_name):
 		self.file_name = file_name
 
@@ -19,6 +22,10 @@ class DatasetLoad:
 		return data
 
 	def load_data_mat(self):
+		'''
+		从文件中导入数据
+		导入数据为矩阵格式 1000*10000
+		'''
 		dataset = np.zeros((1000, 10000), dtype=np.int16)
 		f = open(self.file_name, 'r')
 		lines = f.readlines()
@@ -30,6 +37,9 @@ class DatasetLoad:
 		return np.asarray(dataset)
 
 	def load_data_dict(self):
+		'''
+		将数据导入成字典格式
+		'''
 		n_users = 1000
 		data_dict = {}
 		f = open(self.file_name, 'r')
@@ -58,6 +68,9 @@ class DatasetLoad:
 		return data_dict
 
 	def norm_data(self, file_name_feature):
+		'''
+		对特征矩阵进行normalize处理
+		'''
 		feat_mat = sio.loadmat(file_name_feature)['featM_vgg']
 		n_rows, n_cols = feat_mat.shape
 		for i in xrange(n_rows):
@@ -67,6 +80,9 @@ class DatasetLoad:
 		sio.savemat('feat_mat_norm', {'feat_mat': feat_mat})
 
 	def load_rows_ground(self):
+		'''
+		导入用户类别标签
+		'''
 		file_name_ground = 'data/Q_test1k.mat'
 		data = sio.loadmat(file_name_ground)
 		rows_ground = data['Q_test1k'][0]
